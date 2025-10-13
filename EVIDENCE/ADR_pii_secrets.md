@@ -10,7 +10,7 @@
 ```
 Risk: R-05 (L=3, I=4, Score=12)
 DFD: Logs (сквозной поток)
-NFR: NFR-008 (Observability/Logging)
+NFR: NFR-002(NFR-003/NFR-004 из EVIDENCE) (Privacy/PII)
 Assumptions:
 - Все сервисы логируют JSON через единый middleware
 - Содержимое логов иногда включает поля DTO и stack traces
