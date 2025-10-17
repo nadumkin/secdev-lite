@@ -1,1 +1,0 @@
-unzip -l evidence-s08.zip > EVIDENCE/S08/artifacts.txt
