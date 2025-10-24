@@ -1,0 +1,4 @@
+size: >0 bytes
+<testsuite found
+<testcase found
+OK

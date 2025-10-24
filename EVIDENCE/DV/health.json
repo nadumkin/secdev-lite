@@ -1,0 +1,12 @@
+{
+  "Status": "healthy",
+  "FailingStreak": 0,
+  "Log": [
+    {
+      "Start": "2025-10-24T17:50:41.086059045Z",
+      "End": "2025-10-24T17:50:41.128444461Z",
+      "ExitCode": 0,
+      "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100   292  100   292    0     0  58051      0 --:--:-- --:--:-- --:--:-- 48666\r100   292  100   292    0     0  57730      0 --:--:-- --:--:-- --:--:-- 48666\n\n\n<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>secdev-seed</title>\n</head>\n<body>\n  <main>\n    \n  <h1>Echo</h1>\n  <div id=\"message\">Hello!</div>\n  <p>Попробуйте: <code>/echo?msg=&lt;script&gt;alert(1)&lt;/script&gt;</code></p>\n\n  </main>\n</body>\n</html>"
+    }
+  ]
+}

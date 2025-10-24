@@ -1,0 +1,180 @@
+Current runner version: '2.329.0'
+Runner Image Provisioner
+Operating System
+Runner Image
+GITHUB_TOKEN Permissions
+Secret source: Actions
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+Complete job name: build-test (3.11)
+1s
+Run actions/checkout@v4
+Syncing repository: nadumkin/secdev_seed
+Getting Git version info
+Temporarily overriding HOME='/home/runner/work/_temp/8c68de96-c9a9-4de6-8568-4925bae6a2c3' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/secdev_seed/secdev_seed
+Deleting the contents of '/home/runner/work/secdev_seed/secdev_seed'
+Initializing the repository
+Disabling automatic garbage collection
+Setting up auth
+Fetching the repository
+Determining the checkout info
+/usr/bin/git sparse-checkout disable
+/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Checking out the ref
+/usr/bin/git log -1 --format=%H
+a731f83a92e3678f0c73209aba15c37c08fb9620
+0s
+Run actions/setup-python@v5
+Installed versions
+2s
+Run actions/cache@v4
+Cache hit for: Linux-pip-e20665a8543aa0bf35d05fd05977fc88d3911e15bc31749d47de4014afebb35f
+Received 0 of 7108363 (0.0%), 0.0 MBs/sec
+Received 7108363 of 7108363 (100.0%), 5.8 MBs/sec
+Cache Size: ~7 MB (7108363 B)
+/usr/bin/tar -xf /home/runner/work/_temp/838fbda5-fcd0-4123-bb7f-30c0aa633a8f/cache.tzst -P -C /home/runner/work/secdev_seed/secdev_seed --use-compress-program unzstd
+Cache restored successfully
+Cache restored from key: Linux-pip-e20665a8543aa0bf35d05fd05977fc88d3911e15bc31749d47de4014afebb35f
+9s
+Run pip install -r requirements.txt
+Collecting fastapi==0.115.0 (from -r requirements.txt (line 2))
+  Using cached fastapi-0.115.0-py3-none-any.whl.metadata (27 kB)
+Collecting uvicorn==0.30.1 (from -r requirements.txt (line 3))
+  Using cached uvicorn-0.30.1-py3-none-any.whl.metadata (6.3 kB)
+Collecting jinja2==3.1.4 (from -r requirements.txt (line 4))
+  Using cached jinja2-3.1.4-py3-none-any.whl.metadata (2.6 kB)
+Collecting pydantic==2.9.2 (from -r requirements.txt (line 5))
+  Using cached pydantic-2.9.2-py3-none-any.whl.metadata (149 kB)
+Collecting pytest==8.3.2 (from -r requirements.txt (line 6))
+  Using cached pytest-8.3.2-py3-none-any.whl.metadata (7.5 kB)
+Collecting httpx==0.27.2 (from -r requirements.txt (line 7))
+  Using cached httpx-0.27.2-py3-none-any.whl.metadata (7.1 kB)
+Collecting pytest-cov==7.0.0 (from -r requirements.txt (line 8))
+  Using cached pytest_cov-7.0.0-py3-none-any.whl.metadata (31 kB)
+Collecting starlette<0.39.0,>=0.37.2 (from fastapi==0.115.0->-r requirements.txt (line 2))
+  Using cached starlette-0.38.6-py3-none-any.whl.metadata (6.0 kB)
+Collecting typing-extensions>=4.8.0 (from fastapi==0.115.0->-r requirements.txt (line 2))
+  Using cached typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting annotated-types>=0.6.0 (from pydantic==2.9.2->-r requirements.txt (line 5))
+  Using cached annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+Collecting pydantic-core==2.23.4 (from pydantic==2.9.2->-r requirements.txt (line 5))
+  Using cached pydantic_core-2.23.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+Collecting click>=7.0 (from uvicorn==0.30.1->-r requirements.txt (line 3))
+  Using cached click-8.3.0-py3-none-any.whl.metadata (2.6 kB)
+Collecting h11>=0.8 (from uvicorn==0.30.1->-r requirements.txt (line 3))
+  Using cached h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting MarkupSafe>=2.0 (from jinja2==3.1.4->-r requirements.txt (line 4))
+  Using cached markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+Collecting iniconfig (from pytest==8.3.2->-r requirements.txt (line 6))
+  Using cached iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+Collecting packaging (from pytest==8.3.2->-r requirements.txt (line 6))
+  Using cached packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting pluggy<2,>=1.5 (from pytest==8.3.2->-r requirements.txt (line 6))
+  Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+Collecting anyio (from httpx==0.27.2->-r requirements.txt (line 7))
+  Using cached anyio-4.11.0-py3-none-any.whl.metadata (4.1 kB)
+Collecting certifi (from httpx==0.27.2->-r requirements.txt (line 7))
+  Using cached certifi-2025.10.5-py3-none-any.whl.metadata (2.5 kB)
+Collecting httpcore==1.* (from httpx==0.27.2->-r requirements.txt (line 7))
+  Using cached httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+Collecting idna (from httpx==0.27.2->-r requirements.txt (line 7))
+  Using cached idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+Collecting sniffio (from httpx==0.27.2->-r requirements.txt (line 7))
+  Using cached sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+Collecting coverage>=7.10.6 (from coverage[toml]>=7.10.6->pytest-cov==7.0.0->-r requirements.txt (line 8))
+  Using cached coverage-7.11.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (9.0 kB)
+Using cached fastapi-0.115.0-py3-none-any.whl (94 kB)
+Using cached pydantic-2.9.2-py3-none-any.whl (434 kB)
+Using cached uvicorn-0.30.1-py3-none-any.whl (62 kB)
+Using cached jinja2-3.1.4-py3-none-any.whl (133 kB)
+Using cached pytest-8.3.2-py3-none-any.whl (341 kB)
+Using cached httpx-0.27.2-py3-none-any.whl (76 kB)
+Using cached pytest_cov-7.0.0-py3-none-any.whl (22 kB)
+Using cached pydantic_core-2.23.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+Using cached httpcore-1.0.9-py3-none-any.whl (78 kB)
+Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+Using cached starlette-0.38.6-py3-none-any.whl (71 kB)
+Using cached anyio-4.11.0-py3-none-any.whl (109 kB)
+Using cached annotated_types-0.7.0-py3-none-any.whl (13 kB)
+Using cached click-8.3.0-py3-none-any.whl (107 kB)
+Using cached coverage-7.11.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (248 kB)
+Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+Using cached idna-3.11-py3-none-any.whl (71 kB)
+Using cached markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+Using cached sniffio-1.3.1-py3-none-any.whl (10 kB)
+Using cached typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+Using cached certifi-2025.10.5-py3-none-any.whl (163 kB)
+Using cached iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+Using cached packaging-25.0-py3-none-any.whl (66 kB)
+Installing collected packages: typing-extensions, sniffio, pluggy, packaging, MarkupSafe, iniconfig, idna, h11, coverage, click, certifi, annotated-types, uvicorn, pytest, pydantic-core, jinja2, httpcore, anyio, starlette, pytest-cov, pydantic, httpx, fastapi
+
+Successfully installed MarkupSafe-3.0.3 annotated-types-0.7.0 anyio-4.11.0 certifi-2025.10.5 click-8.3.0 coverage-7.11.0 fastapi-0.115.0 h11-0.16.0 httpcore-1.0.9 httpx-0.27.2 idna-3.11 iniconfig-2.3.0 jinja2-3.1.4 packaging-25.0 pluggy-1.6.0 pydantic-2.9.2 pydantic-core-2.23.4 pytest-8.3.2 pytest-cov-7.0.0 sniffio-1.3.1 starlette-0.38.6 typing-extensions-4.15.0 uvicorn-0.30.1
+0s
+Run python scripts/init_db.py
+DB initialized at /home/runner/work/secdev_seed/secdev_seed/app.db
+2s
+Run mkdir -p EVIDENCE/S08
+.....                                                                    [100%]
+=============================== warnings summary ===============================
+app/models.py:10
+  /home/runner/work/secdev_seed/secdev_seed/app/models.py:10: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator('username')
+
+app/models.py:16
+  /home/runner/work/secdev_seed/secdev_seed/app/models.py:16: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator('password')
+
+tests/test_xss_escaping.py::test_echo_should_escape_script_tags
+  /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/starlette/templating.py:161: DeprecationWarning: The `name` is not the first parameter anymore. The first parameter should be the `Request` instance.
+  Replace `TemplateResponse(name, {"request": request})` by `TemplateResponse(request, name)`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /home/runner/work/secdev_seed/secdev_seed/EVIDENCE/S08/test-report.xml -
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.11.13-final-0 _______________
+
+Coverage XML written to file coverage.xml
+5 passed, 3 warnings in 0.89s
+1s
+Run actions/upload-artifact@v4
+Multiple search paths detected. Calculating the least common ancestor of all paths
+The least common ancestor is /home/runner/work/secdev_seed/secdev_seed. This will be the root directory of the artifact
+With the provided path, there will be 2 files uploaded
+Artifact name is valid!
+Root directory input is valid!
+Beginning upload of artifact content to blob storage
+Uploaded bytes 1247
+Finished uploading artifact content to blob storage!
+SHA256 digest of uploaded artifact zip is dc920b78c6b6715b41b28c9d1850560bc4e78f9b7c206b79b95ac8a573679bdc
+Finalizing artifact upload
+Artifact evidence-s08-3.11.zip successfully finalized. Artifact ID 4367016513
+Artifact evidence-s08-3.11 has been successfully uploaded! Final size is 1247 bytes. Artifact ID is 4367016513
+Artifact download URL: https://github.com/nadumkin/secdev_seed/actions/runs/18790689087/artifacts/4367016513
+0s
+Post job cleanup.
+Cache hit occurred on the primary key Linux-pip-e20665a8543aa0bf35d05fd05977fc88d3911e15bc31749d47de4014afebb35f, not saving cache.
+0s
+Post job cleanup.
+1s
+Post job cleanup.
+/usr/bin/git version
+git version 2.51.0
+Temporarily overriding HOME='/home/runner/work/_temp/d5687384-cbc6-4c91-b3ee-af1669caeb9b' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/secdev_seed/secdev_seed
+/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+0s
+Cleaning up orphan processes
