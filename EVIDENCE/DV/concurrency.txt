@@ -1,2 +1,0 @@
-First run (failed): https://github.com/nadumkin/secdev_seed/actions/runs/18790640038
-Second run (active): https://github.com/nadumkin/secdev_seed/actions/runs/18790689087

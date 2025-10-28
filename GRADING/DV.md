@@ -1,72 +1,52 @@
 # DV - Мини-проект «DevOps-конвейер»
 
-> Этот файл - **индивидуальный**. Его проверяют по **rubric_DV.md** (5 критериев × {0/1/2} → 0-10).
-> Подсказки помечены `TODO:` - удалите после заполнения.
-> Все доказательства/скрины кладите в **EVIDENCE/** и ссылайтесь на конкретные файлы/якоря.
+## DV1
 
----
+Для запуска требуется наличие файлов requirements.txt (см. EVIDENCE/DV) и .env(пример в EVIDENCE/DV)
 
-## 0) Мета
+### Зависимости
 
-- **Проект (опционально BYO):** TODO: ссылка / «учебный шаблон»
-- **Версия (commit/date):** TODO: abc123 / YYYY-MM-DD
-- **Кратко (1-2 предложения):** TODO: что именно собираем/тестируем/пакуем
-
----
-
-## 1) Воспроизводимость локальной сборки и тестов (DV1)
-
-- **Одна команда для сборки/тестов:**
-
-  ```bash
-  # TODO: замените на ваш one-liner
-  make build test
-  ```
-
-  _Если без Makefile: укажите последовательность команд._
-
-- **Версии инструментов (фиксация):**
-
-  ```bash
-  # TODO: примеры - удалите лишнее
-  python --version
-  pip freeze > EVIDENCE/pip-freeze.txt
-  node --version
-  npm ci --version
-  ```
-
-- **Описание шагов (кратко):** TODO: 2-4 пункта как запустить локально
-
----
-
-## 2) Контейнеризация (DV2)
-
-- **Dockerfile:** TODO: `path/to/Dockerfile` (база, multi-stage? минимальный образ?)
-- **Сборка/запуск локально:**
-
-  ```bash
-  docker build -t app:local .
-  docker run --rm -p 8080:8080 app:local
-  ```
-
-  _Укажите порт/команду/healthcheck, если есть._
-
-- **(Опционально) docker-compose:** `TODO: path/to/docker-compose.yml` - кратко, какие сервисы.
-
----
-
-
-## 2.5) Контейнеризация и харденинг (S07)
-
-В рамках этапа S07 контейнеризирован базовый сервис и применены меры облачной гигиены безопасности.
-
-### Запуск контейнера (Docker Compose)
-```bash
-docker compose up --build --wait
+```
+fa
+stapi==0.115.0
+uvicorn==0.30.1
+jinja2==3.1.4
+pydantic==2.9.2
+pytest==8.3.2
+httpx==0.27.2
+pytest-cov==7.0.0
 ```
 
-### Healthcheck
-```yaml
+### Команды для запуска (EVIDENCE/DV/Makefile):
+
+- **Build & run**
+
+```bash
+make run seed
+```
+
+- **Tests**
+
+```bash
+make test seed
+```
+
+- **Build + Tests**
+
+```bash
+make ci seed
+```
+
+`---`
+
+## DV2
+
+Добавлен и использован docker-compose (см EVIDENCE/DV)
+
+- В docker-compose добавлен healthcheck
+
+docker-compose:
+```dockerfile
 healthcheck:
   test: ["CMD", "curl", "-f", "http://localhost:8000/"]
   interval: 10s
@@ -74,139 +54,89 @@ healthcheck:
   retries: 5
 ```
 
-Артефакт: `EVIDENCE/S07/health.json`
+Dockerfile:
+```dockerfile
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends curl \
+ && rm -rf /var/lib/apt/lists/*
+```
 
-### Мера #1: non-root пользователь
-Артефакт: `EVIDENCE/S07/non-root.txt`
+- В Dockerfile добавлен хардеринг S07-3 - Non-root user (см. EVIDENCE/DV/non-root.txt)
 
-### Мера #2: drop capabilities + no-new-privileges
-Артефакт: `EVIDENCE/S07/inspect_web.json`
+```dockerfile
+RUN useradd -m -u 10001 appuser && chown -R appuser:appuser /app
+USER appuser
+```
 
-### Мера #3: read-only root filesystem
-Артефакт: `EVIDENCE/S07/rofs_code.txt`
+### Запуск
 
-### Build / Image size
-`EVIDENCE/S07/build.log`, `EVIDENCE/S07/image-size.txt`
+Для запуска необходимы (см. EVIDENCE/DV):
++ .env
++ requirements.txt
++ Dockerfile
++ docker-compose.yml
 
-### HTTP 200 proof
-`EVIDENCE/S07/http_root_code.txt`
+```bash
+docker compose up --build -d
+```
 
-### Compose logs
-`EVIDENCE/S07/compose-up.log`
+## DV3
 
+### Логи успешного CI
 
-## 2.6) CI: базовый pipeline и стабильный прогон (S08)
+**Где найти:** EVIDENCE/DV/evidence-s08-3.10.zip; EVIDENCE/DV/evidence-s08-3.11.zip;
 
-GitHub Actions: `.github/workflows/ci.yml`
-Степы: checkout → cache deps → install → init DB → pytest (JUnit+coverage).
+**Файл CI.yml:** EVIDENCE/DV/ci.yml
 
-Артефакты: `EVIDENCE/S08/test-report.xml`, `EVIDENCE/S08/coverage.xml`, `EVIDENCE/S08/ci-log.txt`, `EVIDENCE/S08/cache-proof.txt`
+**Что сделано в CI:**
++ Кэш зависимостей
++ Прогон тестов на 2-х версиях Python (3.10 и 3.11)
 
+```yml
+- name: Cache pip
+  uses: actions/cache@v4
+  with:
+    path: ~/.cache/pip
+    key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+    restore-keys: |
+      ${{ runner.os }}-pip-
+```
 
-## 3) CI: базовый pipeline и стабильный прогон (DV3)
+```yml
+strategy:
+  fail-fast: false
+  matrix:
+    python-version: ['3.10', '3.11']
+```
 
-- **Платформа CI:** TODO: GitHub Actions / GitLab CI / другое
-- **Файл конфига CI:** TODO: путь (напр., `.github/workflows/ci.yml`)
-- **Стадии (минимум):** checkout → deps → **build** → **test** → (package)
-- **Фрагмент конфигурации (ключевые шаги):**
+## DV4
 
-  ```yaml
-  # TODO: укоротите под себя
-  jobs:
-  build_test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: '3.11' }
-      - name: Cache deps
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('**/requirements*.txt') }}
-      - run: pip install -r requirements.txt
-      - run: pytest -q
+**Артефакты конвейера(для каждой версии Python свои):**
++ ZIP-архив
+  + test-report.xml — Результаты тестирования (JUnit)
+  + coverage.xml – Покрытие тестами
+  + ci-log.txt – Метаданные CI (время, коммит, версия Python)
 
-  ```
+**Где найти:** EVIDENCE/DV/evidence-s08-3.10.zip; EVIDENCE/DV/evidence-s08-3.11.zip;
 
-- **Стабильность:** TODO: последние N запусков зелёные? краткий комментарий
-- **Ссылка/копия лога прогона:** `EVIDENCE/ci-YYYY-MM-DD-build.txt`
+## DV5
 
----
+Для обеспечения гигиены секретов было сделано:
++ Размещение секретов в Github Secrets
++ Использование секретов в ci.yml
++ Добавлен шаг в CI с проверкой git grep
 
-## 4) Артефакты и логи конвейера (DV4)
+![Снимок экрана 2025-10-28 в 03.55.13.png](../EVIDENCE/DV/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202025-10-28%20%D0%B2%2003.55.13.png)
 
-_Сложите файлы в `/EVIDENCE/` и подпишите их назначение._
+```yaml
+env:
+  APP_NAME: ${{ secrets.APP_NAME }}
+  PORT: ${{ secrets.PORT }}
+```
 
-| Артефакт/лог                    | Путь в `EVIDENCE/`            | Комментарий                                  |
-|---------------------------------|-------------------------------|----------------------------------------------|
-| Лог успешной сборки/тестов (CI) | `ci-YYYY-MM-DD-build.txt`     | ключевые шаги/время                          |
-| Локальный лог сборки (опц.)     | `local-build-YYYY-MM-DD.txt`  | для сверки                                   |
-| Описание результата сборки      | `package-notes.txt`           | какой образ/wheel/архив получился            |
-| Freeze/версии инструментов      | `pip-freeze.txt` (или аналог) | воспроизводимость окружения                  |
+```yaml
+- name: Grep secrets
+  run: git grep -n "SECRET" > EVIDENCE/grep-secrets.txt || true
+```
 
----
-
-## 5) Секреты и переменные окружения (DV5 - гигиена, без сканеров)
-
-- **Шаблон окружения:** добавлен файл `/.env.example` со списком переменных (без значений), например:
-  - `REG_USER=`
-  - `REG_PASS=`
-  - `API_TOKEN=`
-- **Хранение и передача в CI:**
-  - секреты лежат в настройках репозитория/организации (**masked**),
-  - в pipeline они **не печатаются** в явном виде.
-- **Пример использования секрета в job (адаптируйте):**
-
-  ```yaml
-  - name: Login to registry (masked)
-    env:
-      REG_USER: ${{ secrets.REG_USER }}
-      REG_PASS: ${{ secrets.REG_PASS }}
-    run: |
-      echo "::add-mask::$REG_PASS"
-      echo "$REG_PASS" | docker login -u "$REG_USER" --password-stdin registry.example.com
-  ```
-
-- **Быстрая проверка отсутствия секретов в коде (любой простой способ):**
-
-  ```bash
-  # пример: поиск популярных паттернов
-  git grep -nE 'AKIA|SECRET|token=|password=' || true
-  ```
-
-  _Сохраните вывод в `EVIDENCE/grep-secrets.txt`._
-- **Памятка по ротации:** TODO: кто/как меняет secrets при утечке/ревоке токена.
-
----
-
-## 6) Индекс артефактов DV
-
-_Чтобы преподаватель быстро сверил файлы._
-
-| Тип     | Файл в `EVIDENCE/`            | Дата/время         | Коммит/версия | Runner/OS    |
-|---------|--------------------------------|--------------------|---------------|--------------|
-| CI-лог  | `ci-YYYY-MM-DD-build.txt`      | `YYYY-MM-DD hh:mm` | `abc123`      | `gha-ubuntu` |
-| Лок.лог | `local-build-YYYY-MM-DD.txt`   | …                  | `abc123`      | `local`      |
-| Package | `package-notes.txt`            | …                  | `abc123`      | -            |
-| Freeze  | `pip-freeze.txt` (или аналог)  | …                  | `abc123`      | -            |
-| Grep    | `grep-secrets.txt`             | …                  | `abc123`      | -            |
-
----
-
-## 7) Связь с TM и DS (hook)
-
-- **TM:** этот конвейер обслуживает риски процесса сборки/поставки (например, культура работы с секретами, воспроизводимость).
-- **DS:** сканы/гейты/триаж будут оформлены в `DS.md` с артефактами в `EVIDENCE/`.
-
----
-
-## 8) Самооценка по рубрике DV (0/1/2)
-
-- **DV1. Воспроизводимость локальной сборки и тестов:** [ ] 0 [ ] 1 [ ] 2
-- **DV2. Контейнеризация (Docker/Compose):** [ ] 0 [ ] 1 [ ] 2
-- **DV3. CI: базовый pipeline и стабильный прогон:** [ ] 0 [ ] 1 [ ] 2
-- **DV4. Артефакты и логи конвейера:** [ ] 0 [ ] 1 [ ] 2
-- **DV5. Секреты и конфигурация окружения (гигиена):** [ ] 0 [ ] 1 [ ] 2
-
-**Итог DV (сумма):** __/10
+См. EVIDENCE/DV/ci.yml;
